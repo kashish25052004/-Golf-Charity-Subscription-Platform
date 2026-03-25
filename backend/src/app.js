@@ -1,6 +1,5 @@
 import cors from "cors";
 import express from "express";
-import { allowedOrigins } from "./config.js";
 import adminRoutes from "./routes/admin.js";
 import authRoutes from "./routes/auth.js";
 import publicRoutes from "./routes/public.js";
@@ -10,13 +9,7 @@ export const app = express();
 
 app.use(
   cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("CORS origin not allowed."));
-    },
-    credentials: true
+    origin: "*"
   })
 );
 app.use(express.json());
