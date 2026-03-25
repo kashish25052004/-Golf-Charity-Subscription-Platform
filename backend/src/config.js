@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 function cleanEnv(value, fallback) {
-  return (value || fallback || "").trim();
+  return (value || fallback || "").replace(/[\r\n\t]/g, "").trim();
 }
 
 export const config = {
@@ -13,3 +13,9 @@ export const config = {
   jwtSecret: cleanEnv(process.env.JWT_SECRET, "change-me"),
   clientUrl: cleanEnv(process.env.CLIENT_URL, "http://localhost:5173")
 };
+
+export const allowedOrigins = [
+  config.clientUrl,
+  "http://localhost:5173",
+  "http://127.0.0.1:5173"
+].filter(Boolean);

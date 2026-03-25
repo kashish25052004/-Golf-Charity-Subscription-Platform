@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import { config } from "./config.js";
+import { allowedOrigins } from "./config.js";
 import adminRoutes from "./routes/admin.js";
 import authRoutes from "./routes/auth.js";
 import publicRoutes from "./routes/public.js";
@@ -10,7 +10,12 @@ export const app = express();
 
 app.use(
   cors({
-    origin: config.clientUrl,
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("CORS origin not allowed."));
+    },
     credentials: true
   })
 );
@@ -25,4 +30,3 @@ app.use((err, _req, res, _next) => {
   console.error(err);
   res.status(500).json({ message: "Internal server error." });
 });
-
