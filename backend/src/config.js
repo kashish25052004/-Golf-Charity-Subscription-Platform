@@ -2,11 +2,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const config = {
-  port: process.env.PORT || 5000,
-  nodeEnv: process.env.NODE_ENV || "development",
-  mongoUri: process.env.MONGO_URI || "mongodb://127.0.0.1:27017/golf-charity",
-  jwtSecret: process.env.JWT_SECRET || "change-me",
-  clientUrl: process.env.CLIENT_URL || "http://localhost:5173"
-};
+function cleanEnv(value, fallback) {
+  return (value || fallback || "").trim();
+}
 
+export const config = {
+  port: cleanEnv(process.env.PORT, "5000") || 5000,
+  nodeEnv: cleanEnv(process.env.NODE_ENV, "development"),
+  mongoUri: cleanEnv(process.env.MONGO_URI, "mongodb://127.0.0.1:27017/golf-charity"),
+  jwtSecret: cleanEnv(process.env.JWT_SECRET, "change-me"),
+  clientUrl: cleanEnv(process.env.CLIENT_URL, "http://localhost:5173")
+};
