@@ -10,10 +10,10 @@ export const app = express();
 
 app.use(
   cors({
-    origin: config.clientUrl,
-    credentials: true
+    origin: "*"
   })
 );
+
 app.use(express.json());
 
 app.use("/api", publicRoutes);
